@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleAspectFill" selectionStyle="default" indentationWidth="0.0" rowHeight="257" id="KGk-i7-Jjw" customClass="AvailableTableViewCell" customModule="SoundPool_X" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="257"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="256.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="h9u-Kn-kq6">
+                        <rect key="frame" x="8" y="8" width="304" height="189"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QKT-Xo-zII">
+                        <rect key="frame" x="8" y="196" width="214" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3:07" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VIL-ox-DSJ">
+                        <rect key="frame" x="258" y="196" width="53.5" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="plays:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KaM-20-4SM">
+                        <rect key="frame" x="8" y="230" width="44.5" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1753" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZHs-eC-LOr">
+                        <rect key="frame" x="54" y="230" width="37.5" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kE5-yk-ZB2">
+                        <rect key="frame" x="289" y="223" width="23" height="28"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="28" id="Bhh-3Y-lXU"/>
+                            <constraint firstAttribute="width" constant="23" id="zQP-PY-5Kn"/>
+                        </constraints>
+                        <state key="normal" image="option_button.png"/>
+                        <connections>
+                            <action selector="more_action:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="B2W-cX-0pS"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottomMargin" secondItem="QKT-Xo-zII" secondAttribute="bottom" constant="31.5" id="2bO-60-XPt"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="VIL-ox-DSJ" secondAttribute="trailing" constant="0.5" id="4CH-su-5xf"/>
+                    <constraint firstAttribute="bottom" secondItem="kE5-yk-ZB2" secondAttribute="bottom" constant="5.5" id="8GY-Tb-Jlu"/>
+                    <constraint firstAttribute="leadingMargin" secondItem="KaM-20-4SM" secondAttribute="leading" id="9rb-D9-Hse"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="h9u-Kn-kq6" secondAttribute="bottom" constant="51.5" id="EQl-7T-fXI"/>
+                    <constraint firstAttribute="leadingMargin" secondItem="QKT-Xo-zII" secondAttribute="leading" id="Q7J-s9-5d1"/>
+                    <constraint firstItem="VIL-ox-DSJ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="250" id="SgX-Fr-G13"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="KaM-20-4SM" secondAttribute="bottom" constant="-2.5" id="Tbf-k1-Mk8"/>
+                    <constraint firstAttribute="leadingMargin" secondItem="h9u-Kn-kq6" secondAttribute="leading" id="W93-8e-DUq"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="ZHs-eC-LOr" secondAttribute="bottom" constant="-2.5" id="X7M-Yr-Lhx"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="h9u-Kn-kq6" secondAttribute="trailing" id="XO8-UD-b29"/>
+                    <constraint firstAttribute="trailing" secondItem="kE5-yk-ZB2" secondAttribute="trailing" constant="8" id="bXz-mu-PTV"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="QKT-Xo-zII" secondAttribute="trailing" constant="90" id="ox2-a3-dpS"/>
+                    <constraint firstAttribute="topMargin" secondItem="h9u-Kn-kq6" secondAttribute="top" id="sAB-24-9Of"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="VIL-ox-DSJ" secondAttribute="bottom" constant="31.5" id="saa-e1-Vy6"/>
+                    <constraint firstItem="ZHs-eC-LOr" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="46" id="u2F-5g-N28"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="SongImageView" destination="h9u-Kn-kq6" id="oRc-QR-3D2"/>
+                <outlet property="SongTitle" destination="QKT-Xo-zII" id="xVO-a9-pe3"/>
+                <outlet property="Song_Length" destination="VIL-ox-DSJ" id="zyX-vo-DxY"/>
+                <outlet property="more_button" destination="kE5-yk-ZB2" id="ZIu-VM-edY"/>
+                <outlet property="num_plays" destination="ZHs-eC-LOr" id="los-oj-Mek"/>
+                <outlet property="options_button" destination="H2p-sc-9uM" id="sjl-J3-rOu"/>
+                <outlet property="plays_label" destination="KaM-20-4SM" id="R7K-90-hPW"/>
+            </connections>
+            <point key="canvasLocation" x="25" y="37.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="option_button.png" width="90" height="90"/>
+    </resources>
+</document>

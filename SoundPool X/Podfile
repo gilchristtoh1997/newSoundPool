@@ -1,0 +1,23 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'SoundPool X' do
+  pod ‘Firebase’
+  pod 'Firebase/Auth'
+  pod 'Firebase/Database'
+  pod ‘Firebase/Storage’
+  use_frameworks!
+
+  # Pods for SoundPool X
+
+  target 'SoundPool XTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'SoundPool XUITests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end

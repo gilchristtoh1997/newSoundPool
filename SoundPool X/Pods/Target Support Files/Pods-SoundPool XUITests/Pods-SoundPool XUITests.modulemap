@@ -1,0 +1,6 @@
+framework module Pods_SoundPool_XUITests {
+  umbrella header "Pods-SoundPool XUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
