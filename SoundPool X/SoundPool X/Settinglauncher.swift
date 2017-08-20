@@ -66,7 +66,6 @@ class SettingsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
     {
         UIView.animate(withDuration: 0.5){
             self.blackView.alpha = 0
-            
             if let keyWindow =  UIApplication.shared.keyWindow
             {
                 self.collectionView.frame = CGRect(x: 0, y: keyWindow.frame.height, width: self.collectionView.frame.width, height: self.collectionView.frame.height)

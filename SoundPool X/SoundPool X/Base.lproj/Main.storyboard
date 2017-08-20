@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Pd7-Cc-15h">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Pd7-Cc-15h">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -236,11 +237,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bKE-Uo-Dxh">
-                                <rect key="frame" x="0.0" y="65" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nc3-hG-ezM">
                                 <rect key="frame" x="0.0" y="28" width="96" height="37"/>
                                 <constraints>
@@ -251,16 +247,59 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <searchBar contentMode="redraw" placeholder="SoundPool" translatesAutoresizingMaskIntoConstraints="NO" id="LUK-1L-5XC">
+                                <rect key="frame" x="0.0" y="65" width="375" height="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="hdC-XT-6WV" id="VYJ-Na-NeF"/>
+                                </connections>
+                            </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="AbW-rh-gFu">
+                                <rect key="frame" x="0.0" y="109" width="375" height="509"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchTableCell" id="0xy-3R-Ur9">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0xy-3R-Ur9" id="Z4p-a0-4BW">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Nc3-hG-ezM" firstAttribute="top" secondItem="0qd-Sr-lMZ" secondAttribute="bottom" constant="8" id="32B-g1-jsA"/>
+                            <constraint firstItem="LUK-1L-5XC" firstAttribute="leading" secondItem="SmZ-E8-RtE" secondAttribute="leadingMargin" constant="-16" id="3Ej-tW-Qzs"/>
+                            <constraint firstItem="AbW-rh-gFu" firstAttribute="top" secondItem="LUK-1L-5XC" secondAttribute="bottom" id="Sa8-n9-Fdz"/>
+                            <constraint firstItem="AbW-rh-gFu" firstAttribute="leading" secondItem="SmZ-E8-RtE" secondAttribute="leadingMargin" constant="-16" id="ZuN-AK-wOS"/>
+                            <constraint firstItem="BXt-QU-s5r" firstAttribute="top" secondItem="LUK-1L-5XC" secondAttribute="bottom" constant="509" id="dKQ-NR-oR8"/>
+                            <constraint firstItem="AbW-rh-gFu" firstAttribute="top" secondItem="0qd-Sr-lMZ" secondAttribute="bottom" constant="89" id="h7X-zU-Ncj"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="LUK-1L-5XC" secondAttribute="trailing" constant="-16" id="koW-HY-Ncr"/>
+                            <constraint firstItem="BXt-QU-s5r" firstAttribute="top" secondItem="AbW-rh-gFu" secondAttribute="bottom" id="nfD-TJ-JCo"/>
                             <constraint firstItem="Nc3-hG-ezM" firstAttribute="leading" secondItem="SmZ-E8-RtE" secondAttribute="leading" id="uWs-Pc-wuo"/>
+                            <constraint firstItem="LUK-1L-5XC" firstAttribute="top" secondItem="Nc3-hG-ezM" secondAttribute="bottom" id="wli-sn-rqr"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="AbW-rh-gFu" secondAttribute="trailing" constant="-16" id="x8y-FS-W7G"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Search" image="ic_public_16.png" id="GJo-A3-lHe"/>
+                    <tabBarItem key="tabBarItem" tag="1" title="Search" image="ic_public_16.png" id="GJo-A3-lHe"/>
+                    <connections>
+                        <outlet property="myTable" destination="AbW-rh-gFu" id="f0q-AP-L6l"/>
+                        <outlet property="searchDisplayController" destination="sS4-LE-ur9" id="AJf-Ui-dQk"/>
+                        <outlet property="searchbar" destination="LUK-1L-5XC" id="Uis-IO-Ubu"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w1k-Nw-XxF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="sS4-LE-ur9">
+                    <connections>
+                        <outlet property="delegate" destination="hdC-XT-6WV" id="c4q-tp-ZUI"/>
+                        <outlet property="searchContentsController" destination="hdC-XT-6WV" id="OkM-56-vTZ"/>
+                        <outlet property="searchResultsDataSource" destination="hdC-XT-6WV" id="ojU-qS-RHG"/>
+                        <outlet property="searchResultsDelegate" destination="hdC-XT-6WV" id="oRK-ON-99m"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="2741.5999999999999" y="791.15442278860576"/>
         </scene>
@@ -377,6 +416,9 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Home" image="domain.png" id="sfv-hx-RNu"/>
+                    <connections>
+                        <outlet property="myTableview" destination="kPb-w5-2lX" id="Vbk-EN-sfp"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FLi-S9-dO3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -404,9 +446,9 @@
         <scene sceneID="zQI-bq-O9m">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="YgL-C0-WWY" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" image="ic_person_black_16.png" id="zyI-Cp-8HO"/>
+                    <tabBarItem key="tabBarItem" tag="2" title="Profile" image="ic_person_black_16.png" id="zyI-Cp-8HO"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="bsn-cO-qU5">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="bsn-cO-qU5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -426,8 +468,8 @@
         <image name="ic_public_16.png" width="16" height="16"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="VoX-d5-Xc0"/>
-        <segue reference="wGu-pZ-R23"/>
+        <segue reference="mmX-Z6-lJJ"/>
         <segue reference="3PX-HV-1pm"/>
+        <segue reference="wGu-pZ-R23"/>
     </inferredMetricsTieBreakers>
 </document>

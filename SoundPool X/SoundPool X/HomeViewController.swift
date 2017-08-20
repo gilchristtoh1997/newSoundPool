@@ -10,7 +10,6 @@ import UIKit
 import Firebase
 import AVKit
 import AVFoundation
-import Alamofire
 import FirebaseAuth
 
 struct cellData
@@ -18,16 +17,19 @@ struct cellData
     let cell : Int!
     let text : String!
     let length: String!
-    var plays: Int!
     let image : UIImage!
 }
-
+var cellArray : [AvailableTableViewCell] = []
 public var AudioPlayer =  AVPlayer()
 public var SelectedSongNumber = Int()
 var playerSlider = UISlider()
+var scrollView = UIScrollView()
 var pauseButton = UIButton()
+var gestureRecognizer = UIPanGestureRecognizer()
+var toolBarPauseButton = UIButton()
+var songImageView = UIImageView()
 let SongLabel = UILabel()
-var currentSong = " "
+var currentSong : String!
 var playing = 1
 var paused = 0
 var playControl = 0
@@ -39,24 +41,50 @@ var likesArray: [Int] = []
 var item_reference : String = ""
 let list: [String] = ["Halsey - Colors", "Kygo - It Aint Me", "Martin Garrix & Dua Lipa - Scared To Be Lonely", "Miley Cyrus - Party In The U.S.A.", "The Goodnight - I Will Wait"]
 
-class HomeViewController: UITableViewController, URLSessionTaskDelegate, AVAudioPlayerDelegate {
+
+class HomeViewController: UITableViewController{
     
+    @IBOutlet var myTableview: UITableView!
+    var refHandle : UInt!
     var arrayOfCellData = [cellData]()
+    var song_length_array:[String] = []
+    var play_array: [Int] = []
     let cellSpacingHeight: CGFloat = 0
-    var currSongPlays: Int = 0
-    var cell: AvailableTableViewCell! = nil
+    var currSongPlays: Int = 1
+    var cell: AvailableTableViewCell!
+    let celly = Bundle.main.loadNibNamed("AvailableTableViewCell", owner: self, options: nil)?.first as! AvailableTableViewCell
     var playCount = 0
     var backgroundImage: UIImageView!
+    var refresher: UIRefreshControl!
+    var Halsey = 0
+    var kygo = 0
+    var martin = 0
+    var miley = 0
+    var goodnight = 1
+    var count: Int = 0
+    var blackview: UIView!
+    let toolbar = UIToolbar()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        update_number_of_plays()
+        refresher = UIRefreshControl()
+        refresher.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        tableView.addSubview(refresher)
+        
+        tableView.register(AvailableTableViewCell.self, forCellReuseIdentifier: "CustomCell")
+        myTableview.dataSource = self
+        myTableview.delegate = self
+        let nibName = UINib(nibName: "AvailableTableViewCell", bundle: nil)
+        tableView.register(nibName, forCellReuseIdentifier: "tableviewcell")
+        myTableview.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 108, right: 0)
+        
         if Auth.auth().currentUser?.uid == nil
         {
             perform(#selector(handleLogout), with: nil, afterDelay: 0)
         }
         
-        var idx: Int!
-        idx = 1
         for item in list
         {
             let song = item.replacingOccurrences(of: " ", with: "%20")
@@ -66,29 +94,13 @@ class HomeViewController: UITableViewController, URLSessionTaskDelegate, AVAudio
             let duration = CMTimeGetSeconds(audioDuration)
             let s: Int = Int(duration) % 60
             let m: Int = Int(duration) / 60
-            
-            
+
             let formattedDuration = String(format: "%0d:%02d", m, s)
-            arrayOfCellData.append(cellData(cell: idx, text: list[idx-1],length: formattedDuration, plays: currSongPlays,image: #imageLiteral(resourceName: "BackGroundHand")))
-            idx = idx + 1
+            song_length_array.append(formattedDuration)
         }
-        
-        self.GetUsername(uid: (Auth.auth().currentUser?.uid)!, tableView: self.tableView) { (name) in
-            print(name)
-            let indexPath = self.tableView.indexPathForSelectedRow //optional, to get from any UIButton for example
-            
-            let currentCell = self.tableView.cellForRow(at: indexPath!) as! AvailableTableViewCell
-            
-            for items in name
-            {
-                currentCell.num_plays.text = String(items)
-            }
-
-        }
-
-        // Do any additional setup after loading the view.
+         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -97,72 +109,68 @@ class HomeViewController: UITableViewController, URLSessionTaskDelegate, AVAudio
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return list.count
     }
-
-    func GetUsername(uid:String , tableView: UITableView, completion: @escaping ([Int]) -> ()) {
-        Database.database().reference().child("Songs").observeSingleEvent(of: .value) { (snapshot:DataSnapshot) in
-            var array: [Int] = []
-            for item in snapshot.children.allObjects as! [DataSnapshot]
-            {
-                array.append(item.value as! Int)
-                
-            }
-            completion(array)
-           
-        }
-    }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        cell = Bundle.main.loadNibNamed("AvailableTableViewCell", owner: self, options: nil)?.first as! AvailableTableViewCell
-        self.edgesForExtendedLayout = UIRectEdge.init(rawValue: 0)
+        self.cell = tableView.dequeueReusableCell(withIdentifier: "tableviewcell", for: indexPath) as! AvailableTableViewCell
+        if self.play_array.isEmpty == false
+        {
+            print("self array: ",self.play_array)
+            
+            self.edgesForExtendedLayout = UIRectEdge.init(rawValue: 0)
+            
+            self.cell.backgroundColor = UIColor.white
+            self.cell.preservesSuperviewLayoutMargins = false
+            self.cell.separatorInset = UIEdgeInsets.zero
+            self.cell.layoutMargins = UIEdgeInsets.zero
+            self.cell.commonInit(UIImage(named: "google")!, title: list[indexPath.item], length: song_length_array[indexPath.item], plays: String(self.play_array[indexPath.item]))
+            
 
-        cell.backgroundColor = UIColor.white
-        cell.preservesSuperviewLayoutMargins = false
-        cell.separatorInset = UIEdgeInsets.zero
-        cell.layoutMargins = UIEdgeInsets.zero
-            
-        cell.SongImageView.image = arrayOfCellData[indexPath.row].image
-        cell.SongTitle.text = arrayOfCellData[indexPath.row].text
-        cell.Song_Length.text = arrayOfCellData[indexPath.row].length
-        cell.num_plays.text = String(arrayOfCellData[indexPath.row].plays)
-            
+        }
         return cell
             
         
     }
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return cellSpacingHeight
+    }
     
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    {
+        
+        return 200
+        
+    }
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
-        let indexPath = tableView.indexPathForSelectedRow //optional, to get from any UIButton for example
-        
-        let currentCell = tableView.cellForRow(at: indexPath!) as! AvailableTableViewCell
 
+        let cell  = myTableview.cellForRow(at: indexPath) as! AvailableTableViewCell
+        let storyboard = self.storyboard
+        let tc = storyboard?.instantiateViewController(withIdentifier: "Home") as! UITabBarController
         reference = Database.database().reference(fromURL: "https://soundpool-x.firebaseio.com/")
-        let tc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
+        let vc = storyboard?.instantiateViewController(withIdentifier: "playing")
+        
         songsPlayed = songsPlayed + 1
-        currentSong = arrayOfCellData[(indexPath?.row)!].text
+        currentSong = list[(indexPath.item)]
         updateUserSelectedSongs()
 
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "playing")
         SongLabel.frame = CGRect(x: 0, y: 80, width: self.view.frame.size.width, height: 80)
         SongLabel.textAlignment = NSTextAlignment.center
-        SongLabel.text = arrayOfCellData[(indexPath?.row)!].text
-        
+        SongLabel.text = list[(indexPath.item)]
         vc?.view.addSubview(createTabBarFrame())
         vc?.tabBarItem.image = UIImage(named: "google")
         vc?.tabBarItem.title = "Playing"
-        vc?.view.addSubview(createFrameBackground(image: arrayOfCellData[(indexPath?.row)!].image))
+        vc?.view.addSubview(createFrameBackground(image: cell.SongImageView.image!))
         vc?.view.addSubview(SongLabel)
         vc?.view.addSubview(createPauseButton())
         vc?.view.addSubview(createBackButton())
         vc?.view.addSubview(createForwardButton())
+        vc?.view.addSubview(createHideButton())
         vc?.view.addSubview(createSlider())
-        
+        tc.addChildViewController(vc!)
 
-        tc?.addChildViewController(vc!)
-        self.present(tc!, animated: false, completion: nil)
         
-        currentCell.num_plays.text = String(arrayOfCellData[(indexPath?.row)!].plays + 1)
-        updateSongsPlays(song: currentSong)
-        
+        setupPlayerBar(song: currentSong)
         print("playing ",currentSong)
         let song = currentSong.replacingOccurrences(of: " ", with: "%20")
         let url = URL(string: "http://soundpool.cs.loyola.edu/Song_Folder/a_songs/"+song+".mp3")
@@ -170,13 +178,171 @@ class HomeViewController: UITableViewController, URLSessionTaskDelegate, AVAudio
         let playerItem = AVPlayerItem(url: url!)
         AudioPlayer = AVPlayer(playerItem:playerItem)
         AudioPlayer.play()
-
         playControl = playing
         
         NotificationCenter.default.addObserver(self, selector: #selector(songEnded(note:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: AudioPlayer.currentItem)
+
+        
         
 
     }
+    var player: playerBar = {
+        let pb = playerBar()
+        return pb
+        
+    }()
+    private func setupPlayerBar(song: String){
+        if let window = UIApplication.shared.keyWindow
+        {
+            let frameWidth: Int = Int(self.view.frame.size.width)
+            toolbar.frame = CGRect(x: 0, y: Int(self.view.frame.size.height - 78), width: frameWidth, height: 30)
+            toolbar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(touchingToolbar)))
+            window.addSubview(toolbar)
+            
+            toolBarPauseButton = UIButton(frame: CGRect(x: toolbar.frame.size.width - 140, y: 0, width: 50, height: toolbar.frame.size.height))
+            toolBarPauseButton.backgroundColor = UIColor.black
+            toolBarPauseButton.setTitle("pause", for: .normal)
+            toolBarPauseButton.addTarget(self, action: #selector(pausePlayAction), for: .touchUpInside)
+            
+            let forwardButton: UIButton = UIButton(frame: CGRect(x: toolbar.frame.size.width - 70, y: 0, width: 80, height: toolbar.frame.size.height))
+            forwardButton.backgroundColor = UIColor.black
+            forwardButton.setTitle("forward", for: .normal)
+            forwardButton.addTarget(self, action: #selector(forwardAction(_:)), for: .touchUpInside)
+            
+            SongLabel.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width - 200, height: toolbar.frame.size.height)
+            SongLabel.textAlignment = NSTextAlignment.center
+            SongLabel.text = song
+            
+            toolbar.addSubview(SongLabel)
+            toolbar.addSubview(forwardButton)
+            toolbar.addSubview(toolBarPauseButton)
+            if toolbar.isHidden
+            {
+                UIView.animate(withDuration: 1.0, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                    self.toolbar.frame = CGRect(x: 0, y: Int(self.view.frame.size.height - 78), width: frameWidth, height: 30)
+                    
+                }, completion: nil)
+                UIView.animate(withDuration: 1.0, animations: {
+                    self.toolbar.frame = CGRect(x: 0, y: Int(self.view.frame.size.height - 78), width: frameWidth, height: 30)
+                    
+                })
+            }
+
+        }
+    }
+    func touchingToolbar()
+    {
+        UIView.animate(withDuration: 0.5) {
+            if let screenWindow = UIApplication.shared.keyWindow
+            {
+                
+                let cell  = self.myTableview.cellForRow(at: self.myTableview.indexPathForSelectedRow!) as! AvailableTableViewCell
+                
+                scrollView = UIScrollView(frame: CGRect(x: 0, y: 150, width: self.view.frame.size.width, height: self.view.frame.size.height))
+                scrollView.backgroundColor = UIColor.white
+                gestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.dismissScroll))
+                scrollView.addGestureRecognizer(gestureRecognizer)
+                songImageView = UIImageView(frame: CGRect(x: 100, y: 100 , width: 200, height: 200))
+                songImageView.image = cell.SongImageView.image
+                
+                playerSlider = UISlider(frame: CGRect(x: 10, y: (scrollView.frame.size.height) - 300, width: scrollView.frame.size.width - 10, height: 80))
+                let audioSession = AVAudioSession.sharedInstance()
+                let volume: Int = Int(audioSession.outputVolume)
+                playerSlider.isContinuous = true
+                playerSlider.setValue(Float(volume), animated: false)
+                playerSlider.minimumValue = 0
+                playerSlider.maximumValue = 10
+                playerSlider.addTarget(self, action: #selector(self.controlVolume(_:)), for: .valueChanged)
+                
+                let BarPauseButton: UIButton = UIButton(frame: CGRect(x: scrollView.frame.size.width - 200, y: (scrollView.frame.size.height) - 230, width: 50, height: 70))
+                BarPauseButton.backgroundColor = UIColor.black
+                BarPauseButton.setTitle(toolBarPauseButton.currentTitle, for: .normal) /////// Get the toolbar pause button current text
+                BarPauseButton.addTarget(self, action: #selector(self.pausePlayAction), for: .touchUpInside)
+                
+                let forwardButton: UIButton = UIButton(frame: CGRect(x: scrollView.frame.size.width - 70, y: (scrollView.frame.size.height) - 230, width: 80, height: 70))
+                forwardButton.backgroundColor = UIColor.black
+                forwardButton.setTitle("forward", for: .normal)
+                forwardButton.addTarget(self, action: #selector(self.forwardAction(_:)), for: .touchUpInside)
+                
+                
+                let songLabel = UILabel()
+                songLabel.frame = CGRect(x: 0, y: (scrollView.frame.size.height) - 375, width: scrollView.frame.size.width, height: 70)
+                songLabel.textAlignment = NSTextAlignment.center
+                songLabel.text = cell.SongTitle.text
+                
+                let backButton: UIButton = UIButton(frame: CGRect(x: scrollView.frame.size.width - 350, y: (scrollView.frame.size.height) - 230, width: 80, height: 70))
+                backButton.backgroundColor = UIColor.blue
+                backButton.setTitle("back", for: .normal)
+                backButton.addTarget(self, action: #selector(self.backAction(_:)), for: .touchUpInside)
+                
+                scrollView.addSubview(backButton)
+                scrollView.addSubview(BarPauseButton)
+                scrollView.addSubview(forwardButton)
+                scrollView.addSubview(songLabel)
+                scrollView.addSubview(playerSlider)
+                scrollView.addSubview(songImageView)
+                screenWindow.addSubview(scrollView)
+            }
+        }
+    }
+    func dismissScroll()
+    {
+        let velocity = gestureRecognizer.velocity(in: scrollView)
+        
+        if velocity.y > 30 {
+            UIView.animate(withDuration: 0.5){
+                if let keyWindow =  UIApplication.shared.keyWindow
+                {
+                    scrollView.frame = CGRect(x: 0, y: keyWindow.frame.height, width: scrollView.frame.width, height: scrollView.frame.height)
+                    toolBarPauseButton.setTitle(toolBarPauseButton.currentTitle, for: .normal)
+                }
+            }
+        }
+
+    }
+    func addConstraintsWithFormat(format: String, views: UIView...){
+        var viewsDictionary = [String: UIView]()
+        for(index, view) in views.enumerated()
+        {
+            let key = "v\(index)"
+            view.translatesAutoresizingMaskIntoConstraints = false
+            viewsDictionary[key] = view
+        }
+        
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: format, options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+    }
+
+    //refreshes the home page
+    func refresh()
+    {
+        self.viewDidLoad()
+        refresher.endRefreshing()
+    }
+    func update_number_of_plays()
+    {
+        refHandle = Database.database().reference().child("Songs").observe(.value, with: { (snapshot) in
+            print(snapshot)
+            var array: [Int] = []
+            for item in snapshot.children.allObjects as! [DataSnapshot]
+            {
+                array.append(item.value as! Int)
+
+            }
+            self.play_array = array
+            DispatchQueue.main.async(execute: {
+                
+                if self.count == 0
+                {
+                    self.myTableview.reloadData()
+                    self.count = self.count + 1
+                }
+                
+            })
+            print(self.play_array)
+        })
+    }
+    
+
     func updateSongsPlays(song: String)
     {
 
@@ -228,6 +394,13 @@ class HomeViewController: UITableViewController, URLSessionTaskDelegate, AVAudio
             }
         })
     }
+    func createHideButton() -> UIButton {
+        let hideButton: UIButton = UIButton(frame: CGRect(x: 0, y: 50, width: self.view.frame.size.width/4, height: 80))
+        hideButton.backgroundColor = UIColor.blue
+        hideButton.setTitle("hide", for: .normal)
+        hideButton.addTarget(self, action: #selector(hideAction(_:)), for: .touchUpInside)
+        return hideButton
+    }
     func createTabBarFrame() -> UITabBar {
         let tabBar = UITabBar(frame: CGRect(x: 0, y: (self.view.frame.size.height), width: self.view.frame.size.width, height: 100))
         return tabBar
@@ -249,7 +422,7 @@ class HomeViewController: UITableViewController, URLSessionTaskDelegate, AVAudio
     }
     
     func createForwardButton() -> UIButton {
-        let forwardButton: UIButton = UIButton(frame: CGRect(x: ((self.view.frame.size.width)/2) + 80, y: (self.view.frame.size.height) - 100, width: 100, height: 80))
+        let forwardButton: UIButton = UIButton(frame: CGRect(x: ((self.view.frame.size.width)/2) + 80, y: (self.view.frame.size.height) - 100, width: 50, height: 20))
         forwardButton.backgroundColor = UIColor.blue
         forwardButton.setTitle("forward", for: .normal)
         forwardButton.addTarget(self, action: #selector(forwardAction(_:)), for: .touchUpInside)
@@ -292,6 +465,10 @@ class HomeViewController: UITableViewController, URLSessionTaskDelegate, AVAudio
 
     func songEnded(note: Notification)
     {
+        updateSongsPlays(song: currentSong)
+        let cell  = myTableview.cellForRow(at: myTableview.indexPathForSelectedRow!) as! AvailableTableViewCell
+        cell.num_plays.text = String(Int(cell.num_plays.text!)! + 1)
+        
         let startingItem: String = (((AudioPlayer.currentItem?.asset) as? AVURLAsset)?.url.absoluteString)!.replacingOccurrences(of: "http://soundpool.cs.loyola.edu/Song_Folder/a_songs/", with: "").replacingOccurrences(of: "%20", with: " ").replacingOccurrences(of: ".mp3", with: "")
         
         let path: String = (((AudioPlayer.currentItem?.asset) as? AVURLAsset)?.url.absoluteString)!.replacingOccurrences(of: "http://soundpool.cs.loyola.edu/Song_Folder/a_songs/", with: "").replacingOccurrences(of: "%20", with: " ").replacingOccurrences(of: ".mp3", with: "")
@@ -307,7 +484,7 @@ class HomeViewController: UITableViewController, URLSessionTaskDelegate, AVAudio
             print(list.count)
             if(count == list.count - 1)
             {
-                print("back to beginning item")
+                print("last song in queue")
                 currentSong = startingItem
                 SongLabel.text = startingItem
                 print(currentSong)
@@ -336,11 +513,20 @@ class HomeViewController: UITableViewController, URLSessionTaskDelegate, AVAudio
                     
                     let Item = AVPlayerItem(url: currentSongUrl!)
                     AudioPlayer = AVPlayer(playerItem:Item)
-                    AudioPlayer.play()
-                    
-                    playControl = playing
-                    pauseButton.setTitle("pause", for: .normal)
-                    
+                    if pauseButton.currentTitle == "play"
+                    {
+                        AudioPlayer.play()
+                        playControl = playing
+                        pauseButton.setTitle("pause", for: .normal)
+                        
+                    }
+                    else
+                    {
+                        AudioPlayer.pause()
+                        playControl = paused
+                        pauseButton.setTitle("play", for: .normal)
+                    }
+
                     NotificationCenter.default.addObserver(self, selector: #selector(songEnded(note:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: AudioPlayer.currentItem)
 
                 }
@@ -348,8 +534,12 @@ class HomeViewController: UITableViewController, URLSessionTaskDelegate, AVAudio
             }
             
         }
-        
 
+    }
+
+    func hideAction(_ sender: UIButton!) {
+        let tc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
+        self.present(tc!, animated: false, completion: nil)
     }
 
     func pausePlayAction(_ sender: UIButton!) {
@@ -408,16 +598,26 @@ class HomeViewController: UITableViewController, URLSessionTaskDelegate, AVAudio
                 
                 let Item = AVPlayerItem(url: currentSongUrl!)
                 AudioPlayer = AVPlayer(playerItem:Item)
-                AudioPlayer.play()
-                
-                playControl = playing
-                pauseButton.setTitle("pause", for: .normal)
+                if pauseButton.currentTitle == "play"
+                {
+                    AudioPlayer.play()
+                    playControl = playing
+                    pauseButton.setTitle("pause", for: .normal)
+                    
+                }
+                else
+                {
+                    AudioPlayer.pause()
+                    playControl = paused
+                    pauseButton.setTitle("play", for: .normal)
+                }
 
             }
             
         }
         
     }
+
     func forwardAction(_ sender: UIButton!) {
         songsPlayed = songsPlayed + 1
         let path: String = (((AudioPlayer.currentItem?.asset) as? AVURLAsset)?.url.absoluteString)!.replacingOccurrences(of: "http://soundpool.cs.loyola.edu/Song_Folder/a_songs/", with: "").replacingOccurrences(of: "%20", with: " ").replacingOccurrences(of: ".mp3", with: "")
@@ -433,6 +633,7 @@ class HomeViewController: UITableViewController, URLSessionTaskDelegate, AVAudio
             print(list.count)
             if(count == list.count - 1)
             {
+                print("last in the queue")
                 currentSong = list[count]
                 SongLabel.text = currentSong
                 print(currentSong)
@@ -440,11 +641,14 @@ class HomeViewController: UITableViewController, URLSessionTaskDelegate, AVAudio
                 let currentSongUrl = URL(string: "http://soundpool.cs.loyola.edu/Song_Folder/a_songs/"+currentSong+".mp3")
                 
                 let Item = AVPlayerItem(url: currentSongUrl!)
+                toolBarPauseButton.setTitle("play", for: .normal)
                 AudioPlayer = AVPlayer(playerItem:Item)
                 AudioPlayer.pause()
-                
                 playControl = paused
-                pauseButton.setTitle("play", for: .normal)
+                if toolBarPauseButton.currentTitle == "pause"
+                {
+                   toolBarPauseButton.setTitle("play", for: .normal)
+                }
                 
             }
             else
@@ -452,39 +656,30 @@ class HomeViewController: UITableViewController, URLSessionTaskDelegate, AVAudio
                 currentSong = list[count + 1]
                 SongLabel.text = currentSong
                 print(currentSong)
-                    
+                print("in the elae")
                 currentSong = list[count + 1].replacingOccurrences(of: " ", with: "%20")
                 let currentSongUrl = URL(string: "http://soundpool.cs.loyola.edu/Song_Folder/a_songs/"+currentSong+".mp3")
                     
                 let Item = AVPlayerItem(url: currentSongUrl!)
                 AudioPlayer = AVPlayer(playerItem:Item)
-                AudioPlayer.play()
+                if toolBarPauseButton.currentTitle == "play"
+                {
+                    AudioPlayer.pause()
+                    playControl = paused
+                    toolBarPauseButton.setTitle("play", for: .normal)
                     
-                playControl = playing
-                pauseButton.setTitle("pause", for: .normal)
-
-                
-                
+                }
+                else if toolBarPauseButton.currentTitle == "pause"
+                {
+                    AudioPlayer.play()
+                    playControl = playing
+                    toolBarPauseButton.setTitle("pause", for: .normal)
+                }
             }
             
         }
         
         
     }
-
-    
-    
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return cellSpacingHeight
-    }
-
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
-    {
-    
-        return 200
-
-    }
-    
     
 }

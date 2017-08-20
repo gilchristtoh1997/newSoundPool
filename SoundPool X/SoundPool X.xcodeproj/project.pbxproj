@@ -12,6 +12,9 @@
 		200C14431F0392B6004BB06D /* Settinglauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200C14421F0392B6004BB06D /* Settinglauncher.swift */; };
 		200C14451F039E7B004BB06D /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200C14441F039E7B004BB06D /* SettingCell.swift */; };
 		200C14471F03A088004BB06D /* BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200C14461F03A088004BB06D /* BaseCell.swift */; };
+		2019924A1F3D610F00A88438 /* player_bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201992491F3D610E00A88438 /* player_bar.swift */; };
+		201992511F48FD8200A88438 /* searchviewcell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2019924F1F48FD8100A88438 /* searchviewcell.swift */; };
+		201992521F48FD8200A88438 /* searchviewcell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 201992501F48FD8100A88438 /* searchviewcell.xib */; };
 		205437451EE8CFBC0083A047 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205437441EE8CFBC0083A047 /* AppDelegate.swift */; };
 		205437471EE8CFBC0083A047 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205437461EE8CFBC0083A047 /* ViewController.swift */; };
 		2054374A1EE8CFBC0083A047 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 205437481EE8CFBC0083A047 /* Main.storyboard */; };
@@ -149,6 +152,9 @@
 		200C14421F0392B6004BB06D /* Settinglauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settinglauncher.swift; sourceTree = "<group>"; };
 		200C14441F039E7B004BB06D /* SettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		200C14461F03A088004BB06D /* BaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCell.swift; sourceTree = "<group>"; };
+		201992491F3D610E00A88438 /* player_bar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = player_bar.swift; sourceTree = "<group>"; };
+		2019924F1F48FD8100A88438 /* searchviewcell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = searchviewcell.swift; sourceTree = "<group>"; };
+		201992501F48FD8100A88438 /* searchviewcell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = searchviewcell.xib; sourceTree = "<group>"; };
 		205437411EE8CFBC0083A047 /* SoundPool X.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SoundPool X.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		205437441EE8CFBC0083A047 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		205437461EE8CFBC0083A047 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -265,7 +271,10 @@
 				200C14211F005B8E004BB06D /* Alamofire.xcodeproj */,
 				200C14201F005A82004BB06D /* Alamofire-master */,
 				205437441EE8CFBC0083A047 /* AppDelegate.swift */,
+				2019924F1F48FD8100A88438 /* searchviewcell.swift */,
+				201992501F48FD8100A88438 /* searchviewcell.xib */,
 				200C14461F03A088004BB06D /* BaseCell.swift */,
+				201992491F3D610E00A88438 /* player_bar.swift */,
 				205437461EE8CFBC0083A047 /* ViewController.swift */,
 				20B9DFED1EEE85AA009A2726 /* home_button.png */,
 				205437481EE8CFBC0083A047 /* Main.storyboard */,
@@ -537,6 +546,7 @@
 				20B9DFF41EF96681009A2726 /* domain@3x.png in Resources */,
 				20B9DFEE1EEE85AA009A2726 /* home_button.png in Resources */,
 				2054374C1EE8CFBC0083A047 /* Assets.xcassets in Resources */,
+				201992521F48FD8200A88438 /* searchviewcell.xib in Resources */,
 				2054374A1EE8CFBC0083A047 /* Main.storyboard in Resources */,
 				20B9DFFF1EF966D6009A2726 /* ic_public_16@2x.png in Resources */,
 				20B9DFF21EF96681009A2726 /* domain.png in Resources */,
@@ -704,9 +714,11 @@
 			files = (
 				205437811EEAE5CF0083A047 /* SearchViewController.swift in Sources */,
 				2054377F1EEA473B0083A047 /* HomeViewController.swift in Sources */,
+				201992511F48FD8200A88438 /* searchviewcell.swift in Sources */,
 				200C14431F0392B6004BB06D /* Settinglauncher.swift in Sources */,
 				205437881EEB40DE0083A047 /* AvailableTableViewCell.swift in Sources */,
 				200C14471F03A088004BB06D /* BaseCell.swift in Sources */,
+				2019924A1F3D610F00A88438 /* player_bar.swift in Sources */,
 				200C14451F039E7B004BB06D /* SettingCell.swift in Sources */,
 				205437791EE9D33E0083A047 /* SignUpViewController.swift in Sources */,
 				205437471EE8CFBC0083A047 /* ViewController.swift in Sources */,

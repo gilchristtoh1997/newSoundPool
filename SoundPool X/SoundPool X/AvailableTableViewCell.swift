@@ -40,6 +40,13 @@ class AvailableTableViewCell: UITableViewCell {
         new_view.layer.borderColor = UIColor.black.cgColor
         new_view.layer.cornerRadius = new_view.frame.width/12.0
     }
+    func commonInit(_ image: UIImage, title: String, length: String, plays: String)
+    {
+        SongImageView.image = image
+        SongTitle.text = title
+        Song_Length.text = length
+        num_plays.text = plays
+    }
 
     
 }
