@@ -230,6 +230,7 @@ class HomeViewController: UITableViewController{
 
         }
     }
+    
     func touchingToolbar()
     {
         UIView.animate(withDuration: 0.5) {

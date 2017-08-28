@@ -15,6 +15,8 @@
 		2019924A1F3D610F00A88438 /* player_bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201992491F3D610E00A88438 /* player_bar.swift */; };
 		201992511F48FD8200A88438 /* searchviewcell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2019924F1F48FD8100A88438 /* searchviewcell.swift */; };
 		201992521F48FD8200A88438 /* searchviewcell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 201992501F48FD8100A88438 /* searchviewcell.xib */; };
+		201992561F4E757900A88438 /* HorizontalScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201992551F4E757900A88438 /* HorizontalScroll.swift */; };
+		201992581F4FD1C600A88438 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201992571F4FD1C500A88438 /* CategoryCell.swift */; };
 		205437451EE8CFBC0083A047 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205437441EE8CFBC0083A047 /* AppDelegate.swift */; };
 		205437471EE8CFBC0083A047 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205437461EE8CFBC0083A047 /* ViewController.swift */; };
 		2054374A1EE8CFBC0083A047 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 205437481EE8CFBC0083A047 /* Main.storyboard */; };
@@ -155,6 +157,8 @@
 		201992491F3D610E00A88438 /* player_bar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = player_bar.swift; sourceTree = "<group>"; };
 		2019924F1F48FD8100A88438 /* searchviewcell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = searchviewcell.swift; sourceTree = "<group>"; };
 		201992501F48FD8100A88438 /* searchviewcell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = searchviewcell.xib; sourceTree = "<group>"; };
+		201992551F4E757900A88438 /* HorizontalScroll.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalScroll.swift; sourceTree = "<group>"; };
+		201992571F4FD1C500A88438 /* CategoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		205437411EE8CFBC0083A047 /* SoundPool X.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SoundPool X.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		205437441EE8CFBC0083A047 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		205437461EE8CFBC0083A047 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -303,6 +307,8 @@
 				2054374D1EE8CFBC0083A047 /* LaunchScreen.storyboard */,
 				2054377C1EEA42830083A047 /* GoogleService-Info.plist */,
 				205437501EE8CFBC0083A047 /* Info.plist */,
+				201992551F4E757900A88438 /* HorizontalScroll.swift */,
+				201992571F4FD1C500A88438 /* CategoryCell.swift */,
 			);
 			path = "SoundPool X";
 			sourceTree = "<group>";
@@ -720,8 +726,10 @@
 				200C14471F03A088004BB06D /* BaseCell.swift in Sources */,
 				2019924A1F3D610F00A88438 /* player_bar.swift in Sources */,
 				200C14451F039E7B004BB06D /* SettingCell.swift in Sources */,
+				201992561F4E757900A88438 /* HorizontalScroll.swift in Sources */,
 				205437791EE9D33E0083A047 /* SignUpViewController.swift in Sources */,
 				205437471EE8CFBC0083A047 /* ViewController.swift in Sources */,
+				201992581F4FD1C600A88438 /* CategoryCell.swift in Sources */,
 				205437831EEAE5E40083A047 /* ProfileViewController.swift in Sources */,
 				205437451EE8CFBC0083A047 /* AppDelegate.swift in Sources */,
 				205437851EEAEA010083A047 /* SignOutViewController.swift in Sources */,

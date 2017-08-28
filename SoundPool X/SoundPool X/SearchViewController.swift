@@ -8,18 +8,26 @@
 
 import UIKit
 import Firebase
+import AVKit
+import AVFoundation
+import FirebaseAuth
 
 class SearchViewController: UIViewController, UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDelegate, UITableViewDataSource{
     
     @IBOutlet var searchbar: UISearchBar!
     @IBOutlet var myTable: UITableView!
     let showResultsButton = UIButton()
+    var playsArray: [String:Int] = [:]
+    var refHandle : UInt!
+    var count: Int = 0
     override func viewDidLoad() {
         super.viewDidLoad()
         let nibName = UINib(nibName: "searchviewcell", bundle: nil)
         self.tableview.register(nibName, forCellReuseIdentifier: "newCell")
         tableview.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
+        update_number_of_plays()
 
+        print(self.playsArray)
         // Do any additional setup after loading the view.
     }
 
@@ -34,6 +42,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UISearchDispl
     
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print(self.playsArray)
         populateAllResults()
         if self.tableViewResults.count == 0
         {
@@ -68,8 +77,23 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UISearchDispl
         let tablecell = UITableViewCell()
         if tableView == self.myTable
         {
+            let plays: String = String(describing: (self.playsArray[self.tableViewResults[indexPath.item]])).replacingOccurrences(of: "Optional(", with: "").replacingOccurrences(of: ")", with: "")
+            
+            let curSong: String = tableViewResults[indexPath.item]
+            let song = curSong.replacingOccurrences(of: " ", with: "%20")
+            let url = URL(string: "http://soundpool.cs.loyola.edu/Song_Folder/a_songs/"+song+".mp3")
+            let assets = AVURLAsset(url: url!)
+            let audioDuration = assets.duration
+            let duration = CMTimeGetSeconds(audioDuration)
+            let s: Int = Int(duration) % 60
+            let m: Int = Int(duration) / 60
+            
+            let formattedDuration = String(format: "%0d:%02d", m, s)
+            
             let viewcell = tableView.dequeueReusableCell(withIdentifier: "tableviewcell", for: indexPath) as! AvailableTableViewCell
-            viewcell.commonInit(UIImage(named: "google")!, title: self.tableViewResults[indexPath.item], length: "4:44", plays: "44")
+            viewcell.commonInit(UIImage(named: "google")!, title: self.tableViewResults[indexPath.item], length: formattedDuration, plays: plays)
+            count = count + 1
+            //String(self.playsArray[indexPath.item])
             return viewcell
         }
         else if tableView == self.tableview
@@ -189,6 +213,31 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UISearchDispl
         }
 
         self.myTable.reloadData()
+    }
+    func update_number_of_plays()
+    {
+        refHandle = Database.database().reference().child("Songs").observe(.value, with: { (snapshot) in
+            print(snapshot)
+            var array: [String:Int] = [:]
+            for item in snapshot.children.allObjects as! [DataSnapshot]
+            {
+                if item.key == "Miley Cyrus - Party In The USA"
+                {
+                    array["Miley Cyrus - Party In The U.S.A."] = item.value as? Int
+                    continue
+                }
+                array[item.key] = item.value as? Int
+
+            }
+            self.playsArray = array
+            DispatchQueue.main.async(execute: {
+
+                self.myTable.reloadData()
+                //self.count = self.count + 1
+
+            })
+            print(self.playsArray)
+        })
     }
     
   }
