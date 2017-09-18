@@ -17,6 +17,8 @@
 		201992521F48FD8200A88438 /* searchviewcell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 201992501F48FD8100A88438 /* searchviewcell.xib */; };
 		201992561F4E757900A88438 /* HorizontalScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201992551F4E757900A88438 /* HorizontalScroll.swift */; };
 		201992581F4FD1C600A88438 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 201992571F4FD1C500A88438 /* CategoryCell.swift */; };
+		20521DD81F65A33500A15FC4 /* searchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20521DD61F65A33500A15FC4 /* searchCell.swift */; };
+		20521DD91F65A33500A15FC4 /* searchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 20521DD71F65A33500A15FC4 /* searchCell.xib */; };
 		205437451EE8CFBC0083A047 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205437441EE8CFBC0083A047 /* AppDelegate.swift */; };
 		205437471EE8CFBC0083A047 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205437461EE8CFBC0083A047 /* ViewController.swift */; };
 		2054374A1EE8CFBC0083A047 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 205437481EE8CFBC0083A047 /* Main.storyboard */; };
@@ -46,6 +48,13 @@
 		20B9DFFE1EF966D6009A2726 /* ic_public_16.png in Resources */ = {isa = PBXBuildFile; fileRef = 20B9DFFB1EF966D6009A2726 /* ic_public_16.png */; };
 		20B9DFFF1EF966D6009A2726 /* ic_public_16@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20B9DFFC1EF966D6009A2726 /* ic_public_16@2x.png */; };
 		20B9E0001EF966D6009A2726 /* ic_public_16@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20B9DFFD1EF966D6009A2726 /* ic_public_16@3x.png */; };
+		20E185341F6F0408000024BD /* forward.png in Resources */ = {isa = PBXBuildFile; fileRef = 20E185321F6F0408000024BD /* forward.png */; };
+		20E185351F6F0408000024BD /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 20E185331F6F0408000024BD /* back.png */; };
+		20E1853F1F6F086B000024BD /* miley-cyrus-party-in-the-usa.16489.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 20E1853A1F6F086B000024BD /* miley-cyrus-party-in-the-usa.16489.jpg */; };
+		20E185401F6F086B000024BD /* Scared_to_Be_Lonely_Acoustic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 20E1853B1F6F086B000024BD /* Scared_to_Be_Lonely_Acoustic.jpg */; };
+		20E185411F6F086B000024BD /* hqdefault.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 20E1853C1F6F086B000024BD /* hqdefault.jpg */; };
+		20E185421F6F086B000024BD /* Kygo-Online.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 20E1853D1F6F086B000024BD /* Kygo-Online.jpg */; };
+		20E185431F6F086B000024BD /* maxresdefault.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 20E1853E1F6F086B000024BD /* maxresdefault.jpg */; };
 		52CA50D7464793C1B7977FD0 /* Pods_SoundPool_XTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61D021C1B1792662EB0BAFB1 /* Pods_SoundPool_XTests.framework */; };
 		98F90B22918E4F8B613300E0 /* Pods_SoundPool_X.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A953469AAB05E86DFDFCE98 /* Pods_SoundPool_X.framework */; };
 /* End PBXBuildFile section */
@@ -159,6 +168,8 @@
 		201992501F48FD8100A88438 /* searchviewcell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = searchviewcell.xib; sourceTree = "<group>"; };
 		201992551F4E757900A88438 /* HorizontalScroll.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalScroll.swift; sourceTree = "<group>"; };
 		201992571F4FD1C500A88438 /* CategoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
+		20521DD61F65A33500A15FC4 /* searchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = searchCell.swift; sourceTree = "<group>"; };
+		20521DD71F65A33500A15FC4 /* searchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = searchCell.xib; sourceTree = "<group>"; };
 		205437411EE8CFBC0083A047 /* SoundPool X.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SoundPool X.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		205437441EE8CFBC0083A047 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		205437461EE8CFBC0083A047 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -194,6 +205,13 @@
 		20B9DFFB1EF966D6009A2726 /* ic_public_16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_public_16.png; sourceTree = "<group>"; };
 		20B9DFFC1EF966D6009A2726 /* ic_public_16@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_public_16@2x.png"; sourceTree = "<group>"; };
 		20B9DFFD1EF966D6009A2726 /* ic_public_16@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_public_16@3x.png"; sourceTree = "<group>"; };
+		20E185321F6F0408000024BD /* forward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = forward.png; sourceTree = "<group>"; };
+		20E185331F6F0408000024BD /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
+		20E1853A1F6F086B000024BD /* miley-cyrus-party-in-the-usa.16489.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "miley-cyrus-party-in-the-usa.16489.jpg"; sourceTree = "<group>"; };
+		20E1853B1F6F086B000024BD /* Scared_to_Be_Lonely_Acoustic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Scared_to_Be_Lonely_Acoustic.jpg; sourceTree = "<group>"; };
+		20E1853C1F6F086B000024BD /* hqdefault.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = hqdefault.jpg; sourceTree = "<group>"; };
+		20E1853D1F6F086B000024BD /* Kygo-Online.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Kygo-Online.jpg"; sourceTree = "<group>"; };
+		20E1853E1F6F086B000024BD /* maxresdefault.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = maxresdefault.jpg; sourceTree = "<group>"; };
 		23CFE99A04778BCF49E8AFA6 /* Pods-SoundPool XTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoundPool XTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SoundPool XTests/Pods-SoundPool XTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3DBF8A37B293F401C7C9FCD5 /* Pods-SoundPool X.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoundPool X.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SoundPool X/Pods-SoundPool X.debug.xcconfig"; sourceTree = "<group>"; };
 		61D021C1B1792662EB0BAFB1 /* Pods_SoundPool_XTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoundPool_XTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -283,9 +301,10 @@
 				20B9DFED1EEE85AA009A2726 /* home_button.png */,
 				205437481EE8CFBC0083A047 /* Main.storyboard */,
 				205437841EEAEA000083A047 /* SignOutViewController.swift */,
-				200C14441F039E7B004BB06D /* SettingCell.swift */,
 				205437801EEAE5CE0083A047 /* SearchViewController.swift */,
 				205437821EEAE5E40083A047 /* ProfileViewController.swift */,
+				201992571F4FD1C500A88438 /* CategoryCell.swift */,
+				200C14441F039E7B004BB06D /* SettingCell.swift */,
 				200C14421F0392B6004BB06D /* Settinglauncher.swift */,
 				2054377E1EEA473B0083A047 /* HomeViewController.swift */,
 				205437861EEB40DE0083A047 /* AvailableTableViewCell.swift */,
@@ -295,6 +314,13 @@
 				2054377A1EE9D3840083A047 /* ResetPasswordViewController.swift */,
 				205437781EE9D33E0083A047 /* SignUpViewController.swift */,
 				2054374B1EE8CFBC0083A047 /* Assets.xcassets */,
+				20E1853A1F6F086B000024BD /* miley-cyrus-party-in-the-usa.16489.jpg */,
+				20E1853B1F6F086B000024BD /* Scared_to_Be_Lonely_Acoustic.jpg */,
+				20E1853C1F6F086B000024BD /* hqdefault.jpg */,
+				20E1853D1F6F086B000024BD /* Kygo-Online.jpg */,
+				20E1853E1F6F086B000024BD /* maxresdefault.jpg */,
+				20E185321F6F0408000024BD /* forward.png */,
+				20E185331F6F0408000024BD /* back.png */,
 				20B9DFFB1EF966D6009A2726 /* ic_public_16.png */,
 				20B9DFFC1EF966D6009A2726 /* ic_public_16@2x.png */,
 				20B9DFFD1EF966D6009A2726 /* ic_public_16@3x.png */,
@@ -308,7 +334,8 @@
 				2054377C1EEA42830083A047 /* GoogleService-Info.plist */,
 				205437501EE8CFBC0083A047 /* Info.plist */,
 				201992551F4E757900A88438 /* HorizontalScroll.swift */,
-				201992571F4FD1C500A88438 /* CategoryCell.swift */,
+				20521DD61F65A33500A15FC4 /* searchCell.swift */,
+				20521DD71F65A33500A15FC4 /* searchCell.xib */,
 			);
 			path = "SoundPool X";
 			sourceTree = "<group>";
@@ -541,6 +568,7 @@
 				200C141C1F0057C7004BB06D /* Alamofire-master in Resources */,
 				20B9DFEC1EEE7220009A2726 /* option_button.png in Resources */,
 				20B9DFFE1EF966D6009A2726 /* ic_public_16.png in Resources */,
+				20521DD91F65A33500A15FC4 /* searchCell.xib in Resources */,
 				2054374F1EE8CFBC0083A047 /* LaunchScreen.storyboard in Resources */,
 				20B9E0001EF966D6009A2726 /* ic_public_16@3x.png in Resources */,
 				20B9DFF31EF96681009A2726 /* domain@2x.png in Resources */,
@@ -548,14 +576,21 @@
 				205437891EEB40DE0083A047 /* AvailableTableViewCell.xib in Resources */,
 				205437731EE9C6890083A047 /* Firebase in Resources */,
 				20B9DFEB1EEE7220009A2726 /* likebutton.png in Resources */,
+				20E185341F6F0408000024BD /* forward.png in Resources */,
 				2054377D1EEA42830083A047 /* GoogleService-Info.plist in Resources */,
+				20E1853F1F6F086B000024BD /* miley-cyrus-party-in-the-usa.16489.jpg in Resources */,
 				20B9DFF41EF96681009A2726 /* domain@3x.png in Resources */,
+				20E185401F6F086B000024BD /* Scared_to_Be_Lonely_Acoustic.jpg in Resources */,
+				20E185351F6F0408000024BD /* back.png in Resources */,
 				20B9DFEE1EEE85AA009A2726 /* home_button.png in Resources */,
+				20E185411F6F086B000024BD /* hqdefault.jpg in Resources */,
 				2054374C1EE8CFBC0083A047 /* Assets.xcassets in Resources */,
 				201992521F48FD8200A88438 /* searchviewcell.xib in Resources */,
 				2054374A1EE8CFBC0083A047 /* Main.storyboard in Resources */,
 				20B9DFFF1EF966D6009A2726 /* ic_public_16@2x.png in Resources */,
+				20E185431F6F086B000024BD /* maxresdefault.jpg in Resources */,
 				20B9DFF21EF96681009A2726 /* domain.png in Resources */,
+				20E185421F6F086B000024BD /* Kygo-Online.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -720,6 +755,7 @@
 			files = (
 				205437811EEAE5CF0083A047 /* SearchViewController.swift in Sources */,
 				2054377F1EEA473B0083A047 /* HomeViewController.swift in Sources */,
+				20521DD81F65A33500A15FC4 /* searchCell.swift in Sources */,
 				201992511F48FD8200A88438 /* searchviewcell.swift in Sources */,
 				200C14431F0392B6004BB06D /* Settinglauncher.swift in Sources */,
 				205437881EEB40DE0083A047 /* AvailableTableViewCell.swift in Sources */,

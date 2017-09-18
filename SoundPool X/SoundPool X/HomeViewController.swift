@@ -37,15 +37,16 @@ var songsPlayed = 0
 var reference:DatabaseReference?
 var userSongs: [String] = []
 var likesArray: [Int] = []
-
+var testCount: Int = 0
 var item_reference : String = ""
 let list: [String] = ["Halsey - Colors", "Kygo - It Aint Me", "Martin Garrix & Dua Lipa - Scared To Be Lonely", "Miley Cyrus - Party In The U.S.A.", "The Goodnight - I Will Wait"]
 
 
-class HomeViewController: UITableViewController{
+class HomeViewController: UITableViewController, UITabBarControllerDelegate{
     
     @IBOutlet var myTableview: UITableView!
     var refHandle : UInt!
+    var selectedSong = AvailableTableViewCell()
     var arrayOfCellData = [cellData]()
     var song_length_array:[String] = []
     var play_array: [Int] = []
@@ -64,7 +65,8 @@ class HomeViewController: UITableViewController{
     var count: Int = 0
     var blackview: UIView!
     let toolbar = UIToolbar()
-    
+    let dimView = UIView()
+    var pauseImage = UIImage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,9 +100,24 @@ class HomeViewController: UITableViewController{
             let formattedDuration = String(format: "%0d:%02d", m, s)
             song_length_array.append(formattedDuration)
         }
-         // Do any additional setup after loading the view.
+        getSongsPlayedCount()
     }
-    
+    func getSongsPlayedCount()
+    {
+        refHandle = Database.database().reference().child("users").child((Auth.auth().currentUser?.uid)!).child("My Songs").child("song").observe(.value, with: { (snapshot) in
+            var array: [String] = []
+            DispatchQueue.main.async(execute: { 
+                for item in snapshot.children.allObjects as! [DataSnapshot]
+                {
+                    testCount = testCount + 1
+                    print("testCount: ",testCount)
+                    array.append((item.value as? String)!)
+                    
+                }
+            })
+            
+        })
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -113,17 +130,12 @@ class HomeViewController: UITableViewController{
         self.cell = tableView.dequeueReusableCell(withIdentifier: "tableviewcell", for: indexPath) as! AvailableTableViewCell
         if self.play_array.isEmpty == false
         {
-            print("self array: ",self.play_array)
-            
             self.edgesForExtendedLayout = UIRectEdge.init(rawValue: 0)
-            
             self.cell.backgroundColor = UIColor.white
             self.cell.preservesSuperviewLayoutMargins = false
             self.cell.separatorInset = UIEdgeInsets.zero
             self.cell.layoutMargins = UIEdgeInsets.zero
-            self.cell.commonInit(UIImage(named: "google")!, title: list[indexPath.item], length: song_length_array[indexPath.item], plays: String(self.play_array[indexPath.item]))
-            
-
+            self.cell.commonInit(UIImage(named: list[indexPath.item])!, title: list[indexPath.item], length: song_length_array[indexPath.item], plays: String(self.play_array[indexPath.item]))
         }
         return cell
             
@@ -143,7 +155,7 @@ class HomeViewController: UITableViewController{
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
-
+        
         let cell  = myTableview.cellForRow(at: indexPath) as! AvailableTableViewCell
         let storyboard = self.storyboard
         let tc = storyboard?.instantiateViewController(withIdentifier: "Home") as! UITabBarController
@@ -152,7 +164,8 @@ class HomeViewController: UITableViewController{
         
         songsPlayed = songsPlayed + 1
         currentSong = list[(indexPath.item)]
-        updateUserSelectedSongs()
+        selectedSong = cell
+        //updateUserSelectedSongs()
 
         SongLabel.frame = CGRect(x: 0, y: 80, width: self.view.frame.size.width, height: 80)
         SongLabel.textAlignment = NSTextAlignment.center
@@ -171,8 +184,13 @@ class HomeViewController: UITableViewController{
 
         
         setupPlayerBar(song: currentSong)
-        print("playing ",currentSong)
-        let song = currentSong.replacingOccurrences(of: " ", with: "%20")
+        playSong(cSong: currentSong)
+
+    }
+    func playSong(cSong: String)
+    {
+        print("playing ",cSong)
+        let song = cSong.replacingOccurrences(of: " ", with: "%20")
         let url = URL(string: "http://soundpool.cs.loyola.edu/Song_Folder/a_songs/"+song+".mp3")
         
         let playerItem = AVPlayerItem(url: url!)
@@ -180,12 +198,9 @@ class HomeViewController: UITableViewController{
         AudioPlayer.play()
         playControl = playing
         
-        NotificationCenter.default.addObserver(self, selector: #selector(songEnded(note:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: AudioPlayer.currentItem)
+        NotificationCenter.default.addObserver(self, selector: #selector(songEnded(note:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: AudioPlayer.currentItem)    }
+    
 
-        
-        
-
-    }
     var player: playerBar = {
         let pb = playerBar()
         return pb
@@ -194,19 +209,32 @@ class HomeViewController: UITableViewController{
     private func setupPlayerBar(song: String){
         if let window = UIApplication.shared.keyWindow
         {
-            let frameWidth: Int = Int(self.view.frame.size.width)
-            toolbar.frame = CGRect(x: 0, y: Int(self.view.frame.size.height - 78), width: frameWidth, height: 30)
-            toolbar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(touchingToolbar)))
-            window.addSubview(toolbar)
+            let sb = self.storyboard
             
+            let tc = sb?.instantiateViewController(withIdentifier: "Home") as! UITabBarController
+            
+            print(tc.tabBar.frame.origin.y)
+            let frameWidth: Int = Int(self.view.frame.size.width)
+            window.addSubview(toolbar)
+            //toolbar.translatesAutoresizingMaskIntoConstraints = false
+            
+            toolbar.frame = CGRect(x: 0, y: Int(window.frame.size.height - 78), width: frameWidth, height: 30)
+            toolbar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(touchingToolbar)))
+            
+            
+            //toolbar.topAnchor.constraint(equalTo: window.bottomAnchor, constant: 20).isActive = true
+           toolbar.bottomAnchor.constraint(equalTo: window.bottomAnchor, constant: 20).isActive = true
+            //let cs = NSLayoutConstraint(item: toolbar, attribute:.bottom, relatedBy: .equal, toItem: tableView, attribute: .bottom, multiplier: 1.0, constant: 0)
+            //window.addConstraint(cs)
+            pauseImage = UIImage(named: "pause")!
             toolBarPauseButton = UIButton(frame: CGRect(x: toolbar.frame.size.width - 140, y: 0, width: 50, height: toolbar.frame.size.height))
-            toolBarPauseButton.backgroundColor = UIColor.black
-            toolBarPauseButton.setTitle("pause", for: .normal)
+            toolBarPauseButton.backgroundColor = UIColor.white
+            toolBarPauseButton.setImage(pauseImage, for: .normal)
             toolBarPauseButton.addTarget(self, action: #selector(pausePlayAction), for: .touchUpInside)
             
             let forwardButton: UIButton = UIButton(frame: CGRect(x: toolbar.frame.size.width - 70, y: 0, width: 80, height: toolbar.frame.size.height))
-            forwardButton.backgroundColor = UIColor.black
-            forwardButton.setTitle("forward", for: .normal)
+            forwardButton.backgroundColor = UIColor.white
+            forwardButton.setImage(UIImage(named: "forward"), for: .normal)
             forwardButton.addTarget(self, action: #selector(forwardAction(_:)), for: .touchUpInside)
             
             SongLabel.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width - 200, height: toolbar.frame.size.height)
@@ -216,6 +244,8 @@ class HomeViewController: UITableViewController{
             toolbar.addSubview(SongLabel)
             toolbar.addSubview(forwardButton)
             toolbar.addSubview(toolBarPauseButton)
+            
+
             if toolbar.isHidden
             {
                 UIView.animate(withDuration: 1.0, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
@@ -236,15 +266,16 @@ class HomeViewController: UITableViewController{
         UIView.animate(withDuration: 0.5) {
             if let screenWindow = UIApplication.shared.keyWindow
             {
-                
-                let cell  = self.myTableview.cellForRow(at: self.myTableview.indexPathForSelectedRow!) as! AvailableTableViewCell
-                
+                self.dimView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+                screenWindow.addSubview(self.dimView)
+                self.dimView.alpha = 1
+                self.dimView.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
                 scrollView = UIScrollView(frame: CGRect(x: 0, y: 150, width: self.view.frame.size.width, height: self.view.frame.size.height))
                 scrollView.backgroundColor = UIColor.white
                 gestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.dismissScroll))
                 scrollView.addGestureRecognizer(gestureRecognizer)
-                songImageView = UIImageView(frame: CGRect(x: 100, y: 100 , width: 200, height: 200))
-                songImageView.image = cell.SongImageView.image
+                songImageView = UIImageView(frame: CGRect(x: 100, y: 20 , width: 200, height: 200))
+                songImageView.image = self.selectedSong.SongImageView.image
                 
                 playerSlider = UISlider(frame: CGRect(x: 10, y: (scrollView.frame.size.height) - 300, width: scrollView.frame.size.width - 10, height: 80))
                 let audioSession = AVAudioSession.sharedInstance()
@@ -256,24 +287,24 @@ class HomeViewController: UITableViewController{
                 playerSlider.addTarget(self, action: #selector(self.controlVolume(_:)), for: .valueChanged)
                 
                 let BarPauseButton: UIButton = UIButton(frame: CGRect(x: scrollView.frame.size.width - 200, y: (scrollView.frame.size.height) - 230, width: 50, height: 70))
-                BarPauseButton.backgroundColor = UIColor.black
-                BarPauseButton.setTitle(toolBarPauseButton.currentTitle, for: .normal) /////// Get the toolbar pause button current text
+                BarPauseButton.backgroundColor = UIColor.white
+                BarPauseButton.setImage(toolBarPauseButton.currentImage, for: .normal) /////// Get the toolbar pause button current text
                 BarPauseButton.addTarget(self, action: #selector(self.pausePlayAction), for: .touchUpInside)
                 
                 let forwardButton: UIButton = UIButton(frame: CGRect(x: scrollView.frame.size.width - 70, y: (scrollView.frame.size.height) - 230, width: 80, height: 70))
-                forwardButton.backgroundColor = UIColor.black
-                forwardButton.setTitle("forward", for: .normal)
+                forwardButton.backgroundColor = UIColor.white
+                forwardButton.setImage(UIImage(named: "forward"), for: .normal)
                 forwardButton.addTarget(self, action: #selector(self.forwardAction(_:)), for: .touchUpInside)
                 
                 
                 let songLabel = UILabel()
                 songLabel.frame = CGRect(x: 0, y: (scrollView.frame.size.height) - 375, width: scrollView.frame.size.width, height: 70)
                 songLabel.textAlignment = NSTextAlignment.center
-                songLabel.text = cell.SongTitle.text
+                songLabel.text = self.selectedSong.SongTitle.text
                 
                 let backButton: UIButton = UIButton(frame: CGRect(x: scrollView.frame.size.width - 350, y: (scrollView.frame.size.height) - 230, width: 80, height: 70))
-                backButton.backgroundColor = UIColor.blue
-                backButton.setTitle("back", for: .normal)
+                backButton.backgroundColor = UIColor.white
+                backButton.setImage(UIImage(named: "back"), for: .normal)
                 backButton.addTarget(self, action: #selector(self.backAction(_:)), for: .touchUpInside)
                 
                 scrollView.addSubview(backButton)
@@ -294,6 +325,7 @@ class HomeViewController: UITableViewController{
             UIView.animate(withDuration: 0.5){
                 if let keyWindow =  UIApplication.shared.keyWindow
                 {
+                    self.dimView.alpha = 0
                     scrollView.frame = CGRect(x: 0, y: keyWindow.frame.height, width: scrollView.frame.width, height: scrollView.frame.height)
                     toolBarPauseButton.setTitle(toolBarPauseButton.currentTitle, for: .normal)
                 }
@@ -545,17 +577,17 @@ class HomeViewController: UITableViewController{
 
     func pausePlayAction(_ sender: UIButton!) {
         
-        if(sender.currentTitle == "pause")
+        if(sender.currentImage?.isEqual(UIImage(named: "pause")))!
         {
             AudioPlayer.pause()
             playControl = paused
-            sender.setTitle("play", for: .normal)
+            sender.setImage(UIImage(named: "play"), for: .normal)
         }
         else
         {
             AudioPlayer.play()
             playControl = playing
-            sender.setTitle("pause", for: .normal)
+            sender.setImage(UIImage(named: "pause"), for: .normal)
                 
         }
         

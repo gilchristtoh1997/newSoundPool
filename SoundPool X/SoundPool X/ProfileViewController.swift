@@ -9,19 +9,34 @@
 import UIKit
 import Firebase
 
+
 class ProfileViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
-
-
-    @IBOutlet var profile_navigation: UINavigationItem!
     var refHandle : UInt!
+    var cell: CategoryCell!
     var songsArray: [String] = []
+    
+    @IBOutlet var profile_navigation: UINavigationItem!
 
     @IBOutlet var collectionview: UICollectionView!
 
+    var recentPlaysButton: UIButton = {
+        let rp = UIButton()
+        rp.setTitle("Recent Plays", for: .normal)
+        rp.setTitleColor(UIColor.lightGray, for: .normal)
+        rp.titleLabel?.textAlignment = .center
+        rp.addTarget(self, action: #selector(recentPlays), for: .touchUpInside)
+        return rp
+    }()
     let cellID = "cellID"
-    //var hScroll = HorizontalScroll()
     override func viewDidLoad() {
         super.viewDidLoad()
+        recentPlaysButton.frame = CGRect(x: 0, y: collectionview.frame.origin.y + collectionview.frame.height, width: self.view.frame.size.width, height: 50)
+        recentPlaysButton.layer.borderColor = UIColor.lightGray.cgColor
+        recentPlaysButton.layer.borderWidth = 1
+        self.view.addSubview(recentPlaysButton)
+        
+        collectionview.layer.borderWidth = 1
+        collectionview.layer.borderColor = UIColor.lightGray.cgColor
         collectionview.dataSource = self
         collectionview.delegate = self
         collectionview.scrollsToTop = false
@@ -34,8 +49,6 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, UICol
                 self.profile_navigation.title = dictionary["username"] as? String
             }
         }, withCancel: nil)
-        
-        getMySongs()
         // Do any additional setup after loading the view.
     }
 
@@ -43,9 +56,13 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, UICol
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    func recentPlays()
+    {
+        print("hi")
+    }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! CategoryCell
-        //cell.backgroundColor = UIColor.red
+        self.cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! CategoryCell
+
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -54,40 +71,5 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, UICol
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 150)
     }
-    /**func numberofScrollViewElements() -> Int {
-        return 10
-    }
-    func elementAtScrollViewIndex(index: Int) -> UIView {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        let button = UIButton()
-        button.frame = view.frame
-        button.setTitle("hello \(index)", for: .normal)
-        button.backgroundColor = UIColor.red
-        view.addSubview(button)
-        return view
-    }*/
-    func getMySongs()
-    {
-        refHandle = Database.database().reference().child("users").child((Auth.auth().currentUser?.uid)!).child("My Songs").child("song").observe(.value, with: { (snapshot) in
-            print(snapshot)
-            var array: [String] = []
-            for item in snapshot.children.allObjects as! [DataSnapshot]
-            {
-
-                array.append((item.value as? String)!)
-                
-            }
-            self.songsArray = array
-            DispatchQueue.main.async(execute: {
-                
-                //self.myTable.reloadData()
-                //self.count = self.count + 1
-                
-            })
-            print(self.songsArray)
-        })
-
-    }
-   
 }
 

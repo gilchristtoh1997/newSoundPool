@@ -10,7 +10,10 @@ import UIKit
 
 class searchviewcell: UITableViewCell {
 
-    @IBOutlet var SongName: UILabel!
+
+    @IBOutlet var songPic: UIImageView!
+
+    @IBOutlet var songName: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -21,9 +24,15 @@ class searchviewcell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    func CommonInit(name: String)
+    func CommonInit(name: String, image: UIImage)
     {
-        SongName.text = name
+        songName.text = name
+        songPic.image = image
+        
     }
+    let settinglauncher = SettingsLauncher()
     
+    @IBAction func showSettings(_ sender: Any) {
+         settinglauncher.showSettings((Any).self)
+    }
 }

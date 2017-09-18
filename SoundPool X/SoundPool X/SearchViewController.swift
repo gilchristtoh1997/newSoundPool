@@ -20,10 +20,14 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UISearchDispl
     var playsArray: [String:Int] = [:]
     var refHandle : UInt!
     var count: Int = 0
+    let nothingFound = UIView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let nibName = UINib(nibName: "searchviewcell", bundle: nil)
         self.tableview.register(nibName, forCellReuseIdentifier: "newCell")
+        let nibName2 = UINib(nibName: "searchCell", bundle: nil)
+        self.tableview.register(nibName2, forCellReuseIdentifier: "myCell")
         tableview.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
         update_number_of_plays()
 
@@ -77,7 +81,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UISearchDispl
         let tablecell = UITableViewCell()
         if tableView == self.myTable
         {
-            let plays: String = String(describing: (self.playsArray[self.tableViewResults[indexPath.item]])).replacingOccurrences(of: "Optional(", with: "").replacingOccurrences(of: ")", with: "")
+            /**let plays: String = String(describing: (self.playsArray[self.tableViewResults[indexPath.item]])).replacingOccurrences(of: "Optional(", with: "").replacingOccurrences(of: ")", with: "")
             
             let curSong: String = tableViewResults[indexPath.item]
             let song = curSong.replacingOccurrences(of: " ", with: "%20")
@@ -88,18 +92,18 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UISearchDispl
             let s: Int = Int(duration) % 60
             let m: Int = Int(duration) / 60
             
-            let formattedDuration = String(format: "%0d:%02d", m, s)
+            let formattedDuration = String(format: "%0d:%02d", m, s)**/
             
-            let viewcell = tableView.dequeueReusableCell(withIdentifier: "tableviewcell", for: indexPath) as! AvailableTableViewCell
-            viewcell.commonInit(UIImage(named: "google")!, title: self.tableViewResults[indexPath.item], length: formattedDuration, plays: plays)
+            let viewcell = tableView.dequeueReusableCell(withIdentifier: "newCell", for: indexPath) as! searchviewcell
+            viewcell.CommonInit(name: self.tableViewResults[indexPath.item], image: UIImage(named: "google")!) //// Get cell's actual image
             count = count + 1
             //String(self.playsArray[indexPath.item])
             return viewcell
         }
         else if tableView == self.tableview
         {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "newCell", for: indexPath) as! searchviewcell
-            cell.CommonInit(name: self.tableViewResults[indexPath.item])
+            let cell = tableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath) as! searchCell
+            cell.getSongTitle(name: self.tableViewResults[indexPath.item])
             return cell
         }
         else
@@ -110,11 +114,11 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UISearchDispl
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if tableView == self.tableview
         {
-            return 75
+            return 70
         }
         else
         {
-            return 196
+            return 70
         }
         
     }
@@ -124,13 +128,20 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UISearchDispl
         tableview.reloadData()
         myTable.delegate = self
         myTable.dataSource = self
-        let nibName = UINib(nibName: "AvailableTableViewCell", bundle: nil)
-        myTable.register(nibName, forCellReuseIdentifier: "tableviewcell")
+        let nibName = UINib(nibName: "searchviewcell", bundle: nil)
+        myTable.register(nibName, forCellReuseIdentifier: "newCell")
         showResultsButton.setTitle("Show Results", for: .normal)
         showResultsButton.layer.borderWidth = 1
         showResultsButton.layer.borderColor = UIColor.purple.cgColor
         searchBar.showsCancelButton = true
         print("search bar clicked")
+        if nothingFound.isHidden == false
+        {
+            UIView.animate(withDuration: 0.5){
+                self.nothingFound.frame = CGRect(x:0, y: Int(self.view.frame.size.height), width: Int(self.searchbar.frame.size.width), height: 0)
+                
+            }
+        }
         if let window = UIApplication.shared.keyWindow
         {
             tableview.backgroundColor = UIColor.white
@@ -202,6 +213,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UISearchDispl
     }
     func populateAllResults()
     {
+        
         print("populating all results")
         self.dismissView()
         searchbar.showsCancelButton = false
@@ -209,6 +221,14 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UISearchDispl
         searchbar.text = ""
         if self.tableViewResults.count == 0
         {
+            nothingFound.backgroundColor = UIColor.white
+            nothingFound.frame = CGRect(x: 0, y: Int(searchbar.frame.origin.y + searchbar.frame.height), width: Int(self.view.frame.size.width), height: Int(self.view.frame.size.height))
+            let notFoundLabel = UILabel()
+            notFoundLabel.frame = CGRect(x: 0, y: Int(searchbar.frame.origin.y + searchbar.frame.height) + 30, width: Int(self.view.frame.size.width), height: 50)
+            notFoundLabel.textAlignment = NSTextAlignment.center
+            notFoundLabel.text = "Sorry no results found"
+            self.view.addSubview(nothingFound)
+            nothingFound.addSubview(notFoundLabel)
             print("Sorry nothing found")
         }
 
