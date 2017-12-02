@@ -56,7 +56,7 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, UICol
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    func recentPlays()
+    @objc func recentPlays()
     {
         print("hi")
     }

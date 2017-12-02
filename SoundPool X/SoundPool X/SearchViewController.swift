@@ -124,6 +124,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UISearchDispl
     }
 
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        filterContentForSearchText(searchText: searchbar.text!)
         self.tableViewResults.removeAll()
         tableview.reloadData()
         myTable.delegate = self
@@ -134,7 +135,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UISearchDispl
         showResultsButton.layer.borderWidth = 1
         showResultsButton.layer.borderColor = UIColor.purple.cgColor
         searchBar.showsCancelButton = true
-        print("search bar clicked")
+        
         if nothingFound.isHidden == false
         {
             UIView.animate(withDuration: 0.5){
@@ -142,8 +143,10 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UISearchDispl
                 
             }
         }
+        
         if let window = UIApplication.shared.keyWindow
         {
+            
             tableview.backgroundColor = UIColor.white
             tableview.dataSource = self
             tableview.delegate = self
@@ -190,7 +193,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UISearchDispl
         searchBar.text = ""
 
     }
-    func dismissView()
+    @objc func dismissView()
     {
         print("in dismis")
         UIView.animate(withDuration: 0.5){
@@ -205,13 +208,20 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UISearchDispl
     }
     func filterContentForSearchText(searchText: String)
     {
+        if((searchbar.text) == "")
+        {
+            self.showResultsButton.removeFromSuperview()
+            self.tableview.removeFromSuperview()
+        }
         self.tableViewResults = list.filter({ (name) -> Bool in
             
             let stringMatch = name.lowercased().range(of: searchText.lowercased())
             return stringMatch != nil ? true : false
+            
         })
+        
     }
-    func populateAllResults()
+    @objc func populateAllResults()
     {
         
         print("populating all results")

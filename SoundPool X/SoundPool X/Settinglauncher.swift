@@ -62,7 +62,7 @@ class SettingsLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
             })
         }
     }
-    func dismiss()
+    @objc func dismiss()
     {
         UIView.animate(withDuration: 0.5){
             self.blackView.alpha = 0

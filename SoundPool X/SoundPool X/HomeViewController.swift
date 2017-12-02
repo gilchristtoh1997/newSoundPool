@@ -261,7 +261,7 @@ class HomeViewController: UITableViewController, UITabBarControllerDelegate{
         }
     }
     
-    func touchingToolbar()
+    @objc func touchingToolbar()
     {
         UIView.animate(withDuration: 0.5) {
             if let screenWindow = UIApplication.shared.keyWindow
@@ -317,7 +317,7 @@ class HomeViewController: UITableViewController, UITabBarControllerDelegate{
             }
         }
     }
-    func dismissScroll()
+    @objc func dismissScroll()
     {
         let velocity = gestureRecognizer.velocity(in: scrollView)
         
@@ -346,7 +346,7 @@ class HomeViewController: UITableViewController, UITabBarControllerDelegate{
     }
 
     //refreshes the home page
-    func refresh()
+    @objc func refresh()
     {
         self.viewDidLoad()
         refresher.endRefreshing()
@@ -482,7 +482,7 @@ class HomeViewController: UITableViewController, UITabBarControllerDelegate{
     }
     
 
-    func handleLogout()
+    @objc func handleLogout()
     {
         do
         {
@@ -491,12 +491,12 @@ class HomeViewController: UITableViewController, UITabBarControllerDelegate{
             print(logoutError)
         }
     }
-    func controlVolume(_ sender: UISlider)
+    @objc func controlVolume(_ sender: UISlider)
     {
         AudioPlayer.volume = sender.value
     }
 
-    func songEnded(note: Notification)
+    @objc func songEnded(note: Notification)
     {
         updateSongsPlays(song: currentSong)
         let cell  = myTableview.cellForRow(at: myTableview.indexPathForSelectedRow!) as! AvailableTableViewCell
@@ -570,12 +570,12 @@ class HomeViewController: UITableViewController, UITabBarControllerDelegate{
 
     }
 
-    func hideAction(_ sender: UIButton!) {
+    @objc func hideAction(_ sender: UIButton!) {
         let tc = self.storyboard?.instantiateViewController(withIdentifier: "Home")
         self.present(tc!, animated: false, completion: nil)
     }
 
-    func pausePlayAction(_ sender: UIButton!) {
+    @objc func pausePlayAction(_ sender: UIButton!) {
         
         if(sender.currentImage?.isEqual(UIImage(named: "pause")))!
         {
@@ -593,7 +593,7 @@ class HomeViewController: UITableViewController, UITabBarControllerDelegate{
         
     }
     
-    func backAction(_ sender: UIButton!) {
+    @objc func backAction(_ sender: UIButton!) {
         
         let path: String = (((AudioPlayer.currentItem?.asset) as? AVURLAsset)?.url.absoluteString)!.replacingOccurrences(of: "http://soundpool.cs.loyola.edu/Song_Folder/a_songs/", with: "").replacingOccurrences(of: "%20", with: " ").replacingOccurrences(of: ".mp3", with: "")
         var count = 0
@@ -651,7 +651,7 @@ class HomeViewController: UITableViewController, UITabBarControllerDelegate{
         
     }
 
-    func forwardAction(_ sender: UIButton!) {
+    @objc func forwardAction(_ sender: UIButton!) {
         songsPlayed = songsPlayed + 1
         let path: String = (((AudioPlayer.currentItem?.asset) as? AVURLAsset)?.url.absoluteString)!.replacingOccurrences(of: "http://soundpool.cs.loyola.edu/Song_Folder/a_songs/", with: "").replacingOccurrences(of: "%20", with: " ").replacingOccurrences(of: ".mp3", with: "")
         var count = 0
